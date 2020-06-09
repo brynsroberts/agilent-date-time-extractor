@@ -16,7 +16,7 @@ for file in os.listdir(folder):
     file_match = regex_pattern.search(file)
     if file_match != None:
         p = Path(folder) / file / 'AcqData' / 'sample_info.xml'
-        file_time[file] = time.ctime(p.stat().st_mtime)
+        file_time[file] = {'mtime': p.stat().st_mtime, 'ctime': time.ctime(p.stat().st_mtime)}
 
 # get path name for new file
 p = Path(folder)
@@ -26,5 +26,5 @@ output_file_name = str(p / 'file_times.csv')
 output_file = open(output_file_name,'w',newline='')
 output_writer = csv.writer(output_file)
 for file in file_time:
-    output_writer.writerow([file,file_time[file]])
+    output_writer.writerow([file,file_time[file]['ctime'],file_time[file]['mtime']])
 output_file.close()
